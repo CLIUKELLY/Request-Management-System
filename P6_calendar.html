@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/P4_requests.css">
+    <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body class="main">
+    <!--Banner-->
+    <div class="header">
+        <br>
+        <h1>WELCOME TO</h1>
+        <h2>
+            <I>Request Management System</I>
+            <br>
+            <I>Calendar</I>
+        </h2>
+    </div>
+
+    <!--Navigation Bar-->
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="P2_requests_analyst.html">Requests</a>
+        <a href="P6_calendar.html">Calendar</a>
+    </div>
+
+
+    <div class="container">
+        <div class="calendar">
+            <div class="title">{{date}}</div>
+            <ul class="weeks">
+                <li class="week">Sunday</li>
+                <li class="week">Monday</li>
+                <li class="week">Tuesday</li>
+                <li class="week">Wednesday</li>
+                <li class="week">Thursday</li>
+                <li class="week">Friday</li>
+                <li class="week">Saturday</li>
+            </ul>
+            <ul class="days">
+                <li class="day" @click="choseDate(a,item)" :class="[currentDayIndex==a?'on':'',item.value?'bd':'',item.sign?'bg':'']" v-for="(item,a) in boxList" :key="a">
+                    <div class="text">{{item.value}}</div>
+                    <div class="sign" v-if="item.sign" :title="item.sign">{{item.sign}}</div>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="popup" v-if="isShow1">
+            <div class="mask"></div>
+            <div class="box">
+                <div class="title">Add schedule</div>
+                <div class="date row">Current date：{{currentDate}}</div>
+                <input class="key row" type="text" placeholder="Title of the itinerary" v-model="title" />
+                <textarea class="val row" placeholder="Content of the itinerary" v-model="content"></textarea>
+                <ul class="control row">
+                    <li class="btn cancel" @click="cancel1()">cancel</li>
+                    <li class="btn confirm" @click="confirm1()">confirm</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="popup" v-if="isShow2">
+            <div class="mask"></div>
+            <div class="box">
+                <div class="title">Current schedule</div>
+                <div class="date row">current date：{{currentDate}}</div>
+                <input class="key row" type="text" placeholder="Title of the itinerary" v-model="title" />
+                <textarea class="val row" placeholder="Content of the itinerary" v-model="content"></textarea>
+                <ul class="control row">
+                    <li class="btn cancel" @click="cancel2()">cancel</li>
+                    <li class="btn confirm" @click="confirm2()">update</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '.container',
+            data: {
+                date: '',
+                boxList: [{
+                    id: 1,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 2,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 3,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 4,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 5,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 6,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 7,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 8,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 9,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 10,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 11,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 12,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 13,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 14,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 15,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 16,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 17,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 18,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 19,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 20,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 21,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 22,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 23,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 24,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 25,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 26,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 27,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 28,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 29,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 30,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 31,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 32,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 33,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 34,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 35,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 36,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 37,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 38,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 39,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 40,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 41,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, {
+                    id: 42,
+                    text: '',
+                    value: '',
+                    sign: '',
+                    remark: ''
+                }, ],
+                dayList: [],
+                currentDayIndex: 5,
+                currentDate: '', // Current date that's selected
+                currentIndex: null, //index of current date that's selected
+                year: '',
+                month: '',
+                id: 0, //id
+                title: '', //Discussion title
+                content: '', //
+                isShow1: false,
+                isShow2: false
+            },
+            mounted() {
+                this.initDate();
+            },
+            methods: {
+                // To chose a date
+                choseDate(index, item) {
+
+                    console.log(index);
+                    let today = item.value < 10 ? ('0' + item.value) : item.value;
+                    let month = this.month < 10 ? ('0' + this.month) : this.month;
+                    this.currentDate = this.year + '-' + month + '-' + today;
+                    this.currentIndex = index;
+                    this.id = item.id;
+                    if (item.sign) {
+                        this.isShow2 = true;
+                        this.title = item.sign;
+                        this.content = item.remark;
+                        return;
+                    } else {
+                        this.isShow1 = true;
+                    }
+                },
+                // comfirm button and add
+                confirm1() {
+                    if (this.title == '') {
+                        alert('Title cannot be empty');
+                        return;
+                    }
+                    if (this.content == '') {
+                        alert('Title remark be empty');
+                        return;
+                    }
+                    this.boxList[this.currentIndex].sign = this.title;
+                    this.boxList[this.currentIndex].remark = this.content;
+                    $.ajax({
+                        url: proBaseUrl + 'calendar/add',
+                        data: {
+                            id: this.id,
+                            name: this.currentDate,
+                            title: this.title,
+                            remark: this.content,
+                            type: 'add',
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            if (res.code == 0) {
+                                alert(res.msg);
+                                this.clear();
+                            } else {
+                                alert(res.msg);
+                            }
+                        }
+                    })
+                },
+                // Update discussion event
+                confirm2() {
+                    this.boxList[this.currentIndex].sign = this.title;
+                    this.boxList[this.currentIndex].remark = this.content;
+                    if (this.title == '') {
+                        alert('Title cannot be empty');
+                        return;
+                    }
+                    if (this.content == '') {
+                        alert('Title remark be empty');
+                        return;
+                    }
+                    this.boxList[this.currentIndex].sign = this.title;
+                    this.boxList[this.currentIndex].remark = this.content;
+                    $.ajax({
+                        url: proBaseUrl + 'calendar/add',
+                        data: {
+                            id: this.id,
+                            name: this.currentDate,
+                            type: 'update',
+                            title: this.title,
+                            remark: this.content
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            if (res.code == 0) {
+                                alert(res.msg);
+                                this.clear();
+                            } else {
+                                alert(res.msg);
+                            }
+                        }
+                    })
+                },
+                // Clear discussion event
+                clear() {
+                    this.title = '';
+                    this.content = '';
+                    this.isShow1 = false;
+                    this.isShow2 = false;
+                },
+                // Cancel button
+                cancel1() {
+                    this.clear();
+                },
+                cancel2() {
+                    this.clear();
+                },
+                // initialize data
+                initDate() {
+                    let date = new Date();
+                    this.year = date.getFullYear();
+                    this.month = date.getMonth() + 1;
+                    let today = date.getDate();
+
+                    let month1 = this.month < 10 ? ('0' + this.month) : this.month;
+                    let today1 = today < 10 ? ('0' + today) : today;
+                    // Get today
+                    this.date = this.year + '-' + month1 + '-' + today1;
+
+                    // first day of the current month
+                    let firstDayTimestamp = new Date(this.year, this.month - 1, 1).getTime();
+                    // last day of the current month
+                    let lastDayTimestamp = new Date(this.year, this.month, 0).getTime();
+
+                    // first day of the current month
+                    let firstDay = new Date(firstDayTimestamp).getDate();
+                    // last day of the current month
+                    let lastDay = new Date(lastDayTimestamp).getDate();
+                    // Get what day is the first day of the month
+                    let week = new Date(firstDayTimestamp).getDay();
+                    console.log(firstDay);
+                    console.log(lastDay);
+                    console.log(week);
+
+
+                    console.log(this.dayList);
+
+                    $.ajax({
+                        url: proBaseUrl + 'calendar/list',
+                        success: (res) => {
+                            console.log(res);
+                            if (res.code == 0) {
+                                this.boxList.forEach((item, index) => {
+                                    if (index >= week && index < (lastDay + week)) {
+                                        item.value = index - week + 1;
+                                        item.id = res.data[index - week].id;
+                                        item.sign = res.data[index - week].title;
+                                        item.remark = res.data[index - week].remark;
+                                        if (item.value == today) {
+                                            this.currentDayIndex = index;
+                                            item.remark = "It's been a great day";
+                                            item.sign = 'Good luck!'
+                                        }
+                                        this.dayList.push(item);
+                                    }
+                                })
+                            } else {}
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

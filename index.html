@@ -100,27 +100,27 @@
             // Login
             $('#login').click(function() {
                 if (username.val() == '') {
-                    alert('Enter one user name,please!');
+                    alert('Enter a user name,please!');
                     return;
                 }
                 if (password.val() == '') {
-                    alert('Enter one user password,please!');
+                    alert('Enter a user password,please!');
                     return;
                 }
                 $.ajax({
-                    url: 'http://demo200.uzlife.cn/api/user/login',
-                    method: 'POST',
+                    url: proBaseUrl + 'user/login',
+                    type: 'POST',
                     data: {
                         username: username.val(),
                         password: password.val()
                     },
                     success: (res) => {
                         if (res.code == 0) {
-                            console.log(res.data);
                             if (res.data.user_jobPosition == 'Product Manager') {
+                                localStorage.setItem('userManager', JSON.stringify(res.data));
                                 window.location.href = 'P2_requests_manager.html';
-
                             } else if (res.data.user_jobPosition == 'Commercial Business Analyst') {
+                                localStorage.setItem('userAnalyst', JSON.stringify(res.data));
                                 window.location.href = 'P2_requests_analyst.html';
                             } else {
                                 alert('The user does not have permission');

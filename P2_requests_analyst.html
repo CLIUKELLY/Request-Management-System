@@ -7,8 +7,8 @@
     <Title>Requests</Title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="css/P2_requests.css">
-	<link rel="stylesheet" href="font/iconfont.css">
-	<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="font/iconfont.css">
+    <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 
 </head>
 <!-------------------------------------------------
@@ -34,297 +34,336 @@
         <div class="navbar">
             <a href="index.html">Home</a>
             <a href="P2_requests_analyst.html">Requests</a>
-            <a href="#">Calendar</a>
+            <a href="P6_calendar.html">Calendar</a>
         </div>
 
         <!-------------------------------------------------
                     Main content section
                 --------------------------------------------------->
-                <section class="main">
-                    <div class="row">
-        
-                        <div class="col-1 col-t-1 col-p-1">
-                            <!-------------------------------------------------
+        <section class="main">
+            <div class="row">
+
+                <div class="col-1 col-t-1 col-p-1">
+                    <!-------------------------------------------------
                                 Request List
                              ------------------------------------------------->
-                            <div class="shopping-cart">
-                                <br>
-                                <div class="title">
-        							<h2>Request List</h2>
-        							<div class="search-box">
-        								<input class="search" @input="watchInput" v-model="keyword" type="text" placeholder="Please enter ID">	
-        								<div class="go iconfont icon-sousuo" @click="search()"></div>
-        							</div>
-        						</div>
-                                <!-- <form name="ShoppingList"> -->
-        
-                                    <table id="table-shopping-cart">
-        								   <tr class="cartRows">
-        								       <th class="thead" v-for="(item,a) in headList" :key="a">
-        								   		{{item.name}}
-        								   		<ul class="arrow" @click="sort(a,item)">
-        								   			<li class="iconfont icon-shangjiantou" :class="!item.isAsc?'on':''"></li>
-        								   			<li class="iconfont icon-shangjiantou-copy" :class="item.isAsc?'on':''"></li>
-        								   		</ul>
-        								   	</th>
-        								   </tr>
-        									<tr class="cartRows" v-for="(item,b) in bodyList" :key="b">
-        										<td>{{item.id}}</td>
-        									    <td class="product-name">{{item.name}}</td>
-        									    <td>
-        									        <input type="button" class="btn-change COLAsub" @click="reduce(b,item.id)" value="-">
-        									        <span class="qtn-addToCart-COLA">{{item.piority}}</span>
-        									        <input type="button" class="btn-change COLAadd" @click="add(b,item.id)" value="+">
-        									    </td>
-        									    <td class="product-price">{{item.receiver}}</td>
-        									    <td class="product-subtotal-COLA">{{item.time}}</td>
-        									    <td class="product-subtotal-COLA">{{item.date}}</td>
-        									
-        									    <td class="product-subtotal-COLA">{{item.urgency}}</td>
-        									    <td class="product-subtotal-COLA">{{item.status}}</td>
-        									</tr>
-                                    </table>
-        
-                                <!-- </form> -->
-        
-        
+                    <div class="shopping-cart">
+                        <br>
+                        <div class="title">
+                            <h2>Request List</h2>
+                            <div class="search-box">
+                                <input class="search" @input="watchInput" v-model="keyword" type="text" placeholder="Please enter ID">
+                                <div class="go iconfont icon-sousuo" @click="search()"></div>
                             </div>
                         </div>
-                        <div class="col-2 col-t-2 col-p-2">
-        
-        
-                            <!-------------------------------------------------
+                        <!-- <form name="ShoppingList"> -->
+
+                        <table id="table-shopping-cart">
+                            <tr class="cartRows">
+                                <th class="thead" v-for="(item,a) in headList" :key="a">
+                                    {{item.name}}
+                                    <ul class="arrow" @click="sort(a,item)">
+                                        <li class="iconfont icon-shangjiantou" :class="!item.isAsc?'on':''"></li>
+                                        <li class="iconfont icon-shangjiantou-copy" :class="item.isAsc?'on':''"></li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr class="cartRows" v-for="(item,b) in bodyList" :key="b">
+                                <td>{{item.id}}</td>
+                                <td class="product-name">{{item.title}}</td>
+                                <td>
+                                    <input type="button" class="btn-change COLAsub" @click="reduce(b,item.id)" value="-">
+                                    <span class="qtn-addToCart-COLA">{{item.piority}}</span>
+                                    <input type="button" class="btn-change COLAadd" @click="add(b,item.id)" value="+">
+                                </td>
+                                <td class="product-price">{{item.sender}}</td>
+                                <td class="product-subtotal-COLA">{{item.time}}</td>
+                                <td class="product-subtotal-COLA">{{item.date}}</td>
+
+                                <td class="product-subtotal-COLA">{{item.urgency}}</td>
+                                <td class="product-subtotal-COLA">{{item.status}}</td>
+                            </tr>
+                        </table>
+
+                        <!-- </form> -->
+
+
+                    </div>
+                </div>
+                <div class="col-2 col-t-2 col-p-2">
+
+
+                    <!-------------------------------------------------
                           Request Summary
                     --------------------------------------------------->
-        
-                            <div class="cart-summary">
-                                <div class="cart-summary-container">
-                                    <h4 style="padding: 10px 0;">Active Request Quantity
-                                        <span class="price" style="color:black">
+
+                    <div class="cart-summary">
+                        <div class="cart-summary-container">
+                            <h4 style="padding: 10px 0;">Active Request Quantity
+                                <span class="price" style="color:black">
         									<i class="fa fa-shopping-cart"></i> 
         									<p class="shoppingCartTotalItems">{{summary}}</p> 
         								</span>
-                                    </h4>
-                                    <hr style="margin-bottom: 10px;">
-                                   <p style="padding: 4px 0;" v-for="(item,d) in summaryList" :key="d">{{item.name}}<span class="price QST" style="color:rgb(75, 73, 73)"><b>{{item.value}}</b></span></p>
-        
-                                </div>
-                            </div>
-        
-        
+                            </h4>
+                            <hr style="margin-bottom: 10px;">
+                            <p style="padding: 4px 0;" v-for="(item,d) in summaryList" :key="d">{{item.name}}<span class="price QST" style="color:rgb(75, 73, 73)"><b>{{item.value}}</b></span></p>
+
                         </div>
                     </div>
-                    <div class="continue-shopping col-1 col-t-1 col-p-1">
-        				<ul class="page">
-        					<li class="btn pre" @click="previous()" :class="page==1?'active':''">Previous</li>
-        					<li class="btn num" :class="currentIndex==c?'on':''" v-for="(item,c) in totalSize" @click="changePage(c)" :key="c">{{c+1}}</li>
-        					<li class="btn next" :class="totalSize==page?'active':''" @click="next()">Next</li>
-        				</ul>
-                    </div>
-        
-        
-                    <!--Footer-->
-                    <div class="footer">
-                        <br>
-                        <pre>  Footer
+
+
+                </div>
+            </div>
+            <div class="continue-shopping col-1 col-t-1 col-p-1">
+                <ul class="page">
+                    <li class="btn pre" @click="previous()" :class="page==1?'active':''">Previous</li>
+                    <li class="btn num" :class="currentIndex==c?'on':''" v-for="(item,c) in totalSize" @click="changePage(c)" :key="c">{{c+1}}</li>
+                    <li class="btn next" :class="totalSize==page?'active':''" @click="next()">Next</li>
+                </ul>
+            </div>
+
+
+            <!--Footer-->
+            <div class="footer">
+                <br>
+                <pre>  Footer
                     </pre>
-                    </div>
-        
-                </section>
-        		<script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
-        		<script>
-        			const regTime = /[0-9\-]{10}/;
-        			const regDate = /\d{2}[:]\d{2}[:]\d{2}/
-        			new Vue({
-        				el: '#container',
-        				data:{
-        					keyword: '',
-        					headList:[
-        						{id:1,name: 'ID',isAsc:true,type:'id'},
-        						{id:2,name: 'Request Name',isAsc:true,type:'name'},
-        						{id:3,name: 'Piority',isAsc:true,type:'piority'},
-        						{id:4,name: 'Sender',isAsc:true,type:'receiver'},
-        						{id:5,name: 'Time',isAsc:true,type:'create_time'},
-        						{id:6,name: 'Date',isAsc:true,type:'create_time'},
-        						{id:7,name: 'Urgency',isAsc:true,type:'urgency'},
-        						{id:8,name: 'Status',isAsc:true,type:'status'},
-        					],
-        					bodyList:[],
-        					summaryList:[],
-        					page: 1,
-        					size: 10,
-        					totalSize: 0,
-        					currentIndex: 0,
-        					summary: 0
-        				},
-        				mounted() {
-        					this.initData();
-        					this.getSummaryData()
-        				},
-        				methods:{
-        					// 上一页
-        					previous(){
-        						if (this.page <= 1)return;
-        						this.page--;
-        						this.initData();
-        						this.currentIndex = this.page-1;
-        					},
-        					// 下一页
-        					next(){
-        						if (this.page == this.totalSize)return;
-        						this.page++;
-        						this.initData();
-        						this.currentIndex = this.page;
-        						this.currentIndex = this.page-1;
-        					},
-        					// 切换页数
-        					changePage(index){
-        						let current = index + 1;
-        						this.currentIndex = index;
-        						this.page = current;
-        						this.initData();
-        					},
-        					// 排序
-        					sort(index,item){
-        						this.headList[index].isAsc = !this.headList[index].isAsc;
-        						console.log(this.headList[index].isAsc);
-        						$.ajax({
-        							url: proBaseUrl+'info/sort',
-        							data:{
-        								page: this.page,
-        								limit: this.size,
-        								type: item.type,
-        								isAsc: item.isAsc
-        							},
-        							success:(res) => {
-        								if (res.code == 0 ) {
-        									this.bodyList = [];
-        									this.totalSize = Math.ceil(res.count/this.size);
-        									res.data.forEach((item,index) => {
-        										item.time = item.create_time.replace(regTime,'');
-        										item.date = item.create_time.replace(regDate,'').replace('-','/');
-        									})
-        									this.bodyList = res.data;
-        								} else {
-        									
-        								}
-        							}
-        						})
-        					},
-        					// 减
-        					reduce(index,id){
-        						if (this.bodyList[index].piority < 1){
-        							alert('不能再少了~');
-        							return;
-        						};
-        						this.bodyList[index].piority--;
-        						this.count(id,'reduce');
-        					},
-        					// 加
-        					add(index,id){
-        						this.bodyList[index].piority++;
-        						this.count(id,'add');
-        					},
-        					// 计算
-        					count(id,type){
-        						$.ajax({
-        							url: proBaseUrl+'info/add',
-        							data:{
-        								id: id,
-        								type: type
-        							},
-        							success:(res) => {
-        								if (res.code == 0 ) {
-        									console.log(res.msg);
-        								} else {
-        									console.log(res.msg);
-        								}
-        							}
-        						})
-        					},
-        					// 搜索
-        					search(){
-        						if (this.keyword == '') {
-        							alert('请输入关键字');
-        							return;
-        						}
-        						this.page = 1;
-        						let that = this;
-        						$.ajax({
-        							url: proBaseUrl+'info/search',
-        							data:{
-        								page: this.page,
-        								limit: this.size,
-        								keyword: that.keyword
-        							},
-        							success:(res) => {
-        								console.log(res);
-        								if (res.code == 0 ) {
-        									if (this.keyword) {
-        										this.bodyList = [];
-        									}
-        									res.data.forEach((item,index) => {
-        										console.log(item)
-        										item.time = item.create_time.replace(regTime,'');
-        										item.date = item.create_time.replace(regDate,'').replace('-','/');
-        									})
-        									this.bodyList = res.data;
-        									this.totalSize = Math.ceil(res.count/this.size);
-        								} else {
-        									this.bodyList = [];
-        									this.totalSize = Math.ceil(res.count/this.size);
-        								}
-        							}
-        						})
-        					},
-        					// 监听输入框
-        					watchInput(e){
-        						if (this.keyword == '') {
-        							this.initData();
-        						}
-        					},
-        					// 总结面板
-        					getSummaryData(){
-        						$.ajax({
-        							url: proBaseUrl+'info/summary',
-        							success:(res) => {
-        								if (res.code == 0 ) {
-        									res.data.forEach((item) => {
-        										this.summary += item.value;
-        										this.summaryList.push(item);
-        									})
-        								} else {
-        									
-        								}
-        							}
-        						})
-        					},
-        					// 初始化数据
-        					initData(){
-        						$.ajax({
-        							url: proBaseUrl+'info/list',
-        							data:{
-        								page: this.page,
-        								limit: this.size
-        							},
-        							success:(res) => {
-        								if (res.code == 0 ) {
-        									res.data.forEach((item,index) => {
-        										item.time = item.create_time.replace(regTime,'');
-        										item.date = item.create_time.replace(regDate,'').replace('-','/');
-        									})
-        									this.bodyList = res.data;
-        									this.totalSize = Math.ceil(res.count/this.size);
-        								} else {
-        									
-        								}
-        							}
-        						})
-        					}
-        				}
-        			})
-        		</script>
-        		
-            </body>
-        </div>
-        </html>
+            </div>
+
+        </section>
+        <script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            const regTime = /[0-9\-]{10}/;
+            const regDate = /\d{2}[:]\d{2}[:]\d{2}/
+            new Vue({
+                el: '#container',
+                data: {
+                    keyword: '',
+                    headList: [{
+                        id: 1,
+                        name: 'ID',
+                        isAsc: true,
+                        type: 'id'
+                    }, {
+                        id: 2,
+                        name: 'Request Name',
+                        isAsc: true,
+                        type: 'name'
+                    }, {
+                        id: 3,
+                        name: 'Piority',
+                        isAsc: true,
+                        type: 'piority'
+                    }, {
+                        id: 4,
+                        name: 'Sender',
+                        isAsc: true,
+                        type: 'receiver'
+                    }, {
+                        id: 5,
+                        name: 'Time',
+                        isAsc: true,
+                        type: 'create_time'
+                    }, {
+                        id: 6,
+                        name: 'Date',
+                        isAsc: true,
+                        type: 'create_time'
+                    }, {
+                        id: 7,
+                        name: 'Urgency',
+                        isAsc: true,
+                        type: 'urgency'
+                    }, {
+                        id: 8,
+                        name: 'Status',
+                        isAsc: true,
+                        type: 'status'
+                    }, ],
+                    bodyList: [],
+                    summaryList: [],
+                    page: 1,
+                    size: 10,
+                    totalSize: 0,
+                    currentIndex: 0,
+                    summary: 0
+                },
+                mounted() {
+                    this.initData();
+                    this.getSummaryData()
+                },
+                methods: {
+                    // Go to previous page
+                    previous() {
+                        if (this.page <= 1) return;
+                        this.page--;
+                        this.initData();
+                        this.currentIndex = this.page - 1;
+                    },
+                    // Go to next page
+                    next() {
+                        if (this.page == this.totalSize) return;
+                        this.page++;
+                        this.initData();
+                        this.currentIndex = this.page;
+                        this.currentIndex = this.page - 1;
+                    },
+                    // Go to page with "index"
+                    changePage(index) {
+                        let current = index + 1;
+                        this.currentIndex = index;
+                        this.page = current;
+                        this.initData();
+                    },
+                    // Sort the items in Vue (container for the objects within the Vue)
+                    sort(index, item) {
+                        this.headList[index].isAsc = !this.headList[index].isAsc;
+                        $.ajax({
+                            url: proBaseUrl + 'info/sort',
+                            data: {
+                                id: JSON.parse(localStorage.getItem('userAnalyst')).id,
+                                type: JSON.parse(localStorage.getItem('userAnalyst')).user_jobPosition,
+                                page: this.page,
+                                limit: this.size,
+                                attr: item.type,
+                                isAsc: item.isAsc
+                            },
+                            success: (res) => {
+                                if (res.code == 0) {
+                                    this.bodyList = [];
+                                    this.totalSize = Math.ceil(res.count / this.size);
+                                    res.data.forEach((item, index) => {
+                                        item.time = item.create_time.replace(regTime, '');
+                                        item.date = (item.create_time.replace(regDate, '')).replace(/[-]/g, '/');
+                                    })
+                                    this.bodyList = res.data;
+                                } else {
+
+                                }
+                            }
+                        })
+                    },
+                    // Reduce the piority
+                    reduce(index, id) {
+                        if (this.bodyList[index].piority < 1) {
+                            alert('Cannot be less than 1');
+                            return;
+                        };
+                        this.bodyList[index].piority--;
+                        this.count(id, 'reduce');
+                    },
+                    // Increase the piority
+                    add(index, id) {
+                        this.bodyList[index].piority++;
+                        this.count(id, 'add');
+                    },
+                    // Count request numebers per status 
+                    count(id, type) {
+                        $.ajax({
+                            url: proBaseUrl + 'info/add',
+                            data: {
+                                id: id,
+                                type: type
+                            },
+                            success: (res) => {
+                                if (res.code == 0) {
+                                    console.log(res.msg);
+                                } else {
+                                    console.log(res.msg);
+                                }
+                            }
+                        })
+                    },
+                    // Search for keywords
+                    search() {
+                        if (this.keyword == '') {
+                            alert('Please enter a keyword');
+                            return;
+                        }
+                        this.page = 1;
+                        let that = this;
+                        $.ajax({
+                            url: proBaseUrl + 'info/search',
+                            data: {
+                                id: JSON.parse(localStorage.getItem('userAnalyst')).id,
+                                type: JSON.parse(localStorage.getItem('userAnalyst')).user_jobPosition,
+                                page: this.page,
+                                limit: this.size,
+                                keyword: that.keyword
+                            },
+                            success: (res) => {
+                                if (res.code == 0) {
+                                    if (this.keyword) {
+                                        this.bodyList = [];
+                                    }
+                                    res.data.forEach((item, index) => {
+                                        item.time = item.create_time.replace(regTime, '');
+                                        item.date = (item.create_time.replace(regDate, '')).replace(/[-]/g, '/');
+                                    })
+                                    this.bodyList = res.data;
+                                    this.totalSize = Math.ceil(res.count / this.size);
+                                } else {
+                                    this.bodyList = [];
+                                    this.totalSize = Math.ceil(res.count / this.size);
+                                }
+                            }
+                        })
+                    },
+                    // Monitor the search textbox to see if it's empty
+                    watchInput(e) {
+                        if (this.keyword == '') {
+                            this.initData();
+                        }
+                    },
+                    // Method to get summary data, and then extend the table rows
+                    getSummaryData() {
+                        $.ajax({
+                            url: proBaseUrl + 'info/summary',
+                            data: {
+                                id: JSON.parse(localStorage.getItem('userAnalyst')).id,
+                                type: JSON.parse(localStorage.getItem('userAnalyst')).user_jobPosition,
+                            },
+                            success: (res) => {
+                                if (res.code == 0) {
+                                    res.data.forEach((item) => {
+                                        this.summary += item.value;
+                                        this.summaryList.push(item);
+                                    })
+                                } else {
+
+                                }
+                            }
+                        })
+                    },
+                    // Initialize data in the table
+                    initData() {
+                        $.ajax({
+                            url: proBaseUrl + 'info/list',
+                            data: {
+                                id: JSON.parse(localStorage.getItem('userAnalyst')).id,
+                                type: JSON.parse(localStorage.getItem('userAnalyst')).user_jobPosition,
+                                page: this.page,
+                                limit: this.size
+                            },
+                            success: (res) => {
+                                if (res.code == 0) {
+                                    res.data.forEach((item, index) => {
+                                        item.time = item.create_time.replace(regTime, '');
+                                        item.date = (item.create_time.replace(regDate, '')).replace(/[-]/g, '/');
+                                    })
+                                    this.bodyList = res.data;
+                                    this.totalSize = Math.ceil(res.count / this.size);
+                                } else {
+
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+        </script>
+
+    </body>
+</div>
+
+</html>

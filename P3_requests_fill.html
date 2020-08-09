@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/P3_requests.css">
     <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
@@ -30,25 +31,22 @@
 
     <div class="container">
         <!-- <form action="/action_page.php"> -->
-
         <div class="row">
             <div class="col-25">
                 <label for="email">1. Request Receiver First Name*</label>
             </div>
             <div class="col-75">
-                <input type="text" v-model="email" id="email" name="firstname" placeholder="Commercial Business Analyst's first name.." required>
+                <input type="text" v-model="fName" name="firstname" placeholder="Commercial Business Analyst's First Name.." required>
             </div>
         </div>
-
         <div class="row">
             <div class="col-25">
                 <label for="email">2. Request Receiver Last Name*</label>
             </div>
             <div class="col-75">
-                <input type="text" v-model="email" id="email" name="firstname" placeholder="Commercial Business Analyst's last name.." required>
+                <input type="text" v-model="lName" name="firstname" placeholder="Commercial Business Analyst's Last Name.." required>
             </div>
         </div>
-
         <div class="row">
             <div class="col-25">
                 <label for="email">3. Request Receiver Email*</label>
@@ -63,7 +61,7 @@
                 <label for="name">4. Request Name*</label>
             </div>
             <div class="col-75">
-                <input type="text" v-model="name" id="name" name="lastname" placeholder="Your request's name.." required>
+                <input type="text" v-model="title" id="name" name="lastname" placeholder="Your request's name.." required>
             </div>
         </div>
 
@@ -72,7 +70,7 @@
                 <label for="req_description">5. Request Description*</label>
             </div>
             <div class="col-75">
-                <textarea id="subject" v-model="content" name="subject" placeholder="Your request description.." style="height:200px" required></textarea>
+                <textarea id="subject" v-model="description" name="subject" placeholder="Your request description.." style="height:200px" required></textarea>
             </div>
         </div>
 
@@ -118,16 +116,35 @@
                     value: 'Low'
                 }, ],
                 radioIndex: null,
+                fName: '',
+                lName: '',
                 email: '',
-                name: '',
-                content: ''
+                title: '',
+                description: ''
             },
             methods: {
                 choseItem(index) {
                     this.radioIndex = index;
                 },
+                //get parameters from url
+                getParams(key) {
+                    var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+                    var r = window.location.search.substr(1).match(reg);
+                    if (r != null) {
+                        return unescape(r[2]);
+                    }
+                    return null;
+                },
                 save() {
                     let emailReg = /^[0-9a-zA-Z_.-]+[@][0-9a-zA-Z_-]+([.][a-zA-Z_.-]+){1,2}$/;
+                    if (this.fName == '') {
+                        alert('The first name cannot be empty');
+                        return;
+                    }
+                    if (this.lName == '') {
+                        alert('The last name cannot be empty');
+                        return;
+                    }
                     if (this.email == '') {
                         alert('The email cannot be empty');
                         return;
@@ -136,27 +153,35 @@
                         alert('Please enter the correct email address');
                         return;
                     }
-                    if (this.name == '') {
-                        alert('The name cannot be empty');
+                    if (this.title == '') {
+                        alert('The request name cannot be empty');
                         return;
                     }
-                    if (this.content == '') {
+                    if (this.description == '') {
                         alert('The description cannot be empty');
                         return;
                     }
+                    let user = JSON.parse(localStorage.getItem('userManager'));
+                    let sendId = user.id;
+                    let sender = user.user_fName + ' ' + user.user_lName;
                     if (this.radioIndex == null) {
                         alert('The urgency cannot be empty');
                         return;
                     }
+
                     $.ajax({
                         url: proBaseUrl + 'info/save',
                         data: {
-                            name: this.name,
+                            sendId: sendId,
+                            sender: sender,
+                            fName: this.fName,
+                            lName: this.lName,
+                            title: this.title,
                             email: this.email,
-                            description: this.content,
+                            description: this.description,
                             urgency: this.radioList[this.radioIndex].value
                         },
-                        method: 'POST',
+                        type: 'POST',
                         success: (res) => {
                             if (res.code == 0) {
                                 alert(res.msg);

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/P3_requests.css">
+    <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body class="main">
+    <!--Banner-->
+    <div class="header">
+        <br>
+        <h1>WELCOME TO</h1>
+        <h2>
+            <I>Request Management System</I>
+            <br>
+            <I>Product Manager</I>
+        </h2>
+    </div>
+
+    <!--Navigation Bar-->
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="P2_requests_manager.html">Requests</a>
+    </div>
+
+    <h2 style="padding-left: 10%;">Request Fill-in Form</h2>
+
+    <div class="container">
+        <!-- <form action="/action_page.php"> -->
+
+        <div class="row">
+            <div class="col-25">
+                <label for="email">1. Request Receiver First Name*</label>
+            </div>
+            <div class="col-75">
+                <input type="text" v-model="email" id="email" name="firstname" placeholder="Commercial Business Analyst's first name.." required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="email">2. Request Receiver Last Name*</label>
+            </div>
+            <div class="col-75">
+                <input type="text" v-model="email" id="email" name="firstname" placeholder="Commercial Business Analyst's last name.." required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="email">3. Request Receiver Email*</label>
+            </div>
+            <div class="col-75">
+                <input type="text" v-model="email" id="email" name="firstname" placeholder="Commercial Business Analyst's email address.." required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="name">4. Request Name*</label>
+            </div>
+            <div class="col-75">
+                <input type="text" v-model="name" id="name" name="lastname" placeholder="Your request's name.." required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="req_description">5. Request Description*</label>
+            </div>
+            <div class="col-75">
+                <textarea id="subject" v-model="content" name="subject" placeholder="Your request description.." style="height:200px" required></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="fname">6. Request Urgency*</label>
+            </div>
+            <div class="col-75">
+                <div class="group" @click="choseItem(a)" v-for="(item,a) in radioList" :key="a">
+                    <div class="checkbox" :class="radioIndex==a?'on':''">
+                        <div class="check" v-if="radioIndex==a"></div>
+                    </div>
+                    <div>{{item.value}}</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-50">
+                <input type="button_cancel" @click="cancel()" value="Cancel">
+            </div>
+            <div class="col-50">
+                <input type="submit" @click="save()" value="Save">
+            </div>
+        </div>
+        <!-- </form> -->
+    </div>
+
+    <script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '.container',
+            data: {
+                radioList: [{
+                    name: 'radio-high',
+                    value: 'High'
+                }, {
+                    name: 'radio-medium',
+                    value: 'Medium'
+                }, {
+                    name: 'radio-low',
+                    value: 'Low'
+                }, ],
+                radioIndex: null,
+                email: '',
+                name: '',
+                content: ''
+            },
+            methods: {
+                choseItem(index) {
+                    this.radioIndex = index;
+                },
+                save() {
+                    let emailReg = /^[0-9a-zA-Z_.-]+[@][0-9a-zA-Z_-]+([.][a-zA-Z_.-]+){1,2}$/;
+                    if (this.email == '') {
+                        alert('The email cannot be empty');
+                        return;
+                    }
+                    if (!emailReg.test(this.email)) {
+                        alert('Please enter the correct email address');
+                        return;
+                    }
+                    if (this.name == '') {
+                        alert('The name cannot be empty');
+                        return;
+                    }
+                    if (this.content == '') {
+                        alert('The description cannot be empty');
+                        return;
+                    }
+                    if (this.radioIndex == null) {
+                        alert('The urgency cannot be empty');
+                        return;
+                    }
+                    $.ajax({
+                        url: proBaseUrl + 'info/save',
+                        data: {
+                            name: this.name,
+                            email: this.email,
+                            description: this.content,
+                            urgency: this.radioList[this.radioIndex].value
+                        },
+                        method: 'POST',
+                        success: (res) => {
+                            if (res.code == 0) {
+                                alert(res.msg);
+                            } else {
+                                alert(res.msg);
+                            }
+                        }
+                    })
+                },
+                cancel() {
+                    window.location.href = 'P2_requests_manager.html';
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

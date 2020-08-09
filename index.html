@@ -1,0 +1,186 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <Title>Home Page</Title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="css/index.css">
+
+</head>
+<!-------------------------------------------------
+    Container: contains Header, content, footer
+--------------------------------------------------->
+
+<div id="container">
+
+    <body id="body">
+        <!--Banner-->
+        <div class="header">
+            <br>
+            <h1>WELCOME TO</h1>
+            <h2>
+                <I>Request Management System</I>
+            </h2>
+
+
+        </div>
+
+        <!--Navigation Bar-->
+
+        <div class="navbar">
+            <a href="index.html">Home</a>
+            <a href="#">Requests</a>
+            <a href="#">Calendar</a>
+
+        </div>
+
+
+        <!-------------------------------------------------
+            Main content section
+        --------------------------------------------------->
+        <div id="loginForm">
+
+
+
+            <div class="form">
+                <div class="imgcontainer">
+                    <img src="Image/img_userProfile.png" alt="Profile Picture" class="user">
+                </div>
+
+                <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <div class="input">
+                        <input class="val" value="" id="username" type="text" placeholder="Enter Email" name="uname" required>
+                    </div>
+
+                    <label for="psw"><b>Password</b></label>
+                    <div class="input">
+                        <input class="val" value="" id="password" type="password" placeholder="Enter Password" name="psw" required>
+                    </div>
+
+                    <button id="login">Login</button>
+                    <label>
+                    <input type="checkbox" id="remember" name="remember"> Remember me
+                  </label>
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" id="cancel" class="cancelbtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <!--Footer-->
+        <div class="footer">
+            <br>
+            <pre>  Footer
+            </pre>
+        </div>
+
+        </section>
+
+        <script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            var username = $('#username');
+            var password = $('#password');
+
+            // Check if localStorage has some data in it
+            if (JSON.parse(localStorage.getItem('remember')) == 'checked') {
+                $('#remember').attr('checked', 'checked');
+                if (JSON.parse(localStorage.getItem('username')) != null) {
+                    $('#username').val(JSON.parse(localStorage.getItem('username')));
+                }
+                if (JSON.parse(localStorage.getItem('password')) != null) {
+                    $('#password').val(JSON.parse(localStorage.getItem('password')));
+                }
+            }
+
+            // Login
+            $('#login').click(function() {
+                if (username.val() == '') {
+                    alert('Enter one user name,please!');
+                    return;
+                }
+                if (password.val() == '') {
+                    alert('Enter one user password,please!');
+                    return;
+                }
+                $.ajax({
+                    url: 'http://demo200.uzlife.cn/api/user/login',
+                    method: 'POST',
+                    data: {
+                        username: username.val(),
+                        password: password.val()
+                    },
+                    success: (res) => {
+                        if (res.code == 0) {
+                            console.log(res.data);
+                            if (res.data.user_jobPosition == 'Product Manager') {
+                                window.location.href = 'P2_requests_manager.html';
+
+                            } else if (res.data.user_jobPosition == 'Commercial Business Analyst') {
+                                window.location.href = 'P2_requests_analyst.html';
+                            } else {
+                                alert('The user does not have permission');
+                            }
+                        } else {
+                            alert(res.msg);
+                        }
+                    }
+                })
+            })
+
+            //remember
+            $('#remember').click(function(e) {
+                    if (username.val() == '') {
+                        alert('Enter one user name,please!');
+                        e.preventDefault();
+                        return;
+                    }
+                    if (password.val() == '') {
+                        alert('Enter one user password,please!');
+                        e.preventDefault();
+                        return;
+                    }
+                    // console.log($('#remember').prop('checked'));
+                    if ($('#remember').attr('checked') != 'checked') {
+                        console.log(1);
+                        setStorage();
+                    } else {
+                        console.log(2);
+                        clearStorage();
+                    }
+                })
+                // Save in LocalStrage
+            function setStorage() {
+                $('#remember').attr('checked', 'checked');
+                // console.log($('#remember').prop('checked'));
+                localStorage.setItem('username', JSON.stringify($('#username').val()));
+                localStorage.setItem('password', JSON.stringify($('#password').val()));
+                localStorage.setItem('remember', JSON.stringify('checked'));
+            }
+            // Remove Local Strage
+            function clearStorage() {
+                $('#remember').attr('checked', '');
+                // console.log($('#remember').prop('checked'));
+                localStorage.setItem('username', JSON.stringify($('#username').val('')));
+                localStorage.setItem('password', JSON.stringify($('#password').val('')));
+                localStorage.setItem('remember', JSON.stringify(''));
+            }
+
+            // Cancel
+            $('#cancel').click(function() {
+                username.val('');
+                password.val('');
+                clearStorage();
+                $('#remember').prop('checked', false);
+            })
+        </script>
+    </body>
+</div>
+
+
+
+</html>

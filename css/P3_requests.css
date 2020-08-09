@@ -1,0 +1,231 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/*--------- 
+ Header 
+--------*/
+
+.header {
+    text-align: center;
+    background-color: rgb(35, 37, 36);
+    color: white;
+    font-size: 30px;
+    width: 100%;
+    height: 250px;
+}
+
+@media screen and (max-width: 420px) {
+    /*-----for phone----*/
+    .header {
+        height: 300px;
+    }
+}
+
+
+/*--------------- 
+ Navigation Bar 
+----------------*/
+
+.navbar {
+    overflow: hidden;
+    background-color: rgb(47, 65, 53);
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.navbar a:hover,
+.dropdown:hover .dropbtn {
+    background-color: rgb(233, 183, 19);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/*--------- 
+ Main
+--------*/
+
+.main {
+    width: 100%;
+    height: 2000ox;
+    background: rgb(219, 215, 206);
+    padding-bottom: 50px;
+}
+
+input[type=text],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+input[type=submit] {
+    background-color: rgb(47, 65, 53);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    width: 30%;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+input[type=button_cancel] {
+    background-color: rgb(47, 65, 53);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    width: 30%;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+input[type=button_cancel]:hover {
+    background-color: #45a049;
+}
+
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding-top: 20px;
+    padding-right: 10%;
+    padding-left: 10%;
+    padding-bottom: 40px;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-50 {
+    float: left;
+    width: 50%;
+    margin-top: 50px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+.group{
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.checkbox{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 5px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 1px solid rgb(47, 65, 53);
+	box-sizing: border-box;
+}
+.checkbox .check{
+	width: 8px;
+	height: 8px;
+	background-color: rgb(47, 65, 53);
+	border-radius: 50%;
+}
+
+/* Clear floats after the columns */
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+
+@media screen and (max-width: 600px) {
+    .col-25,
+    .col-75,
+    .col-50,
+    input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
+}
